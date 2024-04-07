@@ -103,7 +103,7 @@ initialData.forEach(data => {
   reviewsDivEl.append(errorEl);
   const reviewTextDivEl = document.createElement("div");
   reviewTextDivEl.classList.add('card__review__text');
-  
+
   reviewsDivEl.append(reviewFormEl, reviewInputEl, reviewButtonEl, reviewTextDivEl);
 
   data.reviews.forEach(element => {
@@ -122,10 +122,10 @@ initialData.forEach(data => {
         const textError = "Длина введенного значения не соответствует требованиям!";
         reviewInputEl.value = '';
         errorEl.textContent = textError;
-        
+
         throw new Error(textError);
       }
-      
+
       const newReviewEl = document.createElement('p');
       newReviewEl.id = uid();
       newReviewEl.textContent = reviewInputEl.value;
@@ -133,7 +133,7 @@ initialData.forEach(data => {
       reviewInputEl.value = '';
 
     } catch (error) {
-      
+
     }
   });
 

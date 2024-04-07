@@ -24,7 +24,7 @@ class Library {
 
     constructor(book) {
 
-        let uniqueBooks = new Set(book);
+        const uniqueBooks = new Set(book);
 
         if (uniqueBooks.size < book.length) {
             throw new Error('Есть дубликаты');
@@ -38,37 +38,25 @@ class Library {
     }
 
     addBook(title) {
-        try {
-            for (const iterator of books) {
-                if (iterator === title) {
-                    throw new Error('Такая книга уже есть в библиотеке');
-                }
+        for (const iterator of books) {
+            if (iterator === title) {
+                throw new Error('Такая книга уже есть в библиотеке');
             }
-            this.#books.push(title);
-        } catch (error) {
-            console.log(error);
         }
+        this.#books.push(title);
     }
 
     removeBook(title) {
-        try {
-            const filteredBooks = books.filter((book) => book !== title);
-            console.log(filteredBooks);
-            if (filteredBooks.length === books.length) {
-                throw new Error('Такой книги нет, чтобы удалить');
-            }
-            else this.#books = filteredBooks;
-        } catch (error) {
-            Console.log(error);
+        const filteredBooks = books.filter((book) => book !== title);
+        console.log(filteredBooks);
+        if (filteredBooks.length === books.length) {
+            throw new Error('Такой книги нет, чтобы удалить');
         }
+        else this.#books = filteredBooks;
     }
 
     hasBook(title) {
-        try {
-            return this.#books.includes(title);
-        } catch (error) {
-            console.error(error);
-        }
+        return this.#books.includes(title);
     }
 }
 
