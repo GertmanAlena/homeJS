@@ -25,15 +25,6 @@
 делать, пока рано.
 */
 
-const cardEl = document.querySelectorAll('.card');
-const reviewsEl = document.querySelectorAll('.reviews');
-const itemListEl = document.querySelectorAll('.item-list');
-const reviewsInputEl = document.querySelectorAll('.reviews-input');
-const checkButtonInputEl = document.querySelectorAll('.check-button');
-const messageEl = document.querySelectorAll('.error-message');
-const cardTitleEl = document.querySelectorAll('.card__title');
-const liEl = document.createElement('li');
-
 function uid() {
   return Math.random().toString(36).slice(2);
 }
@@ -42,6 +33,7 @@ const initialData = [
   {
     id: uid(),
     product: "Гербера",
+    image: "./image/Гербера.jpg",
     reviews: [
       {
         id: uid(),
@@ -56,6 +48,7 @@ const initialData = [
   {
     id: uid(),
     product: "Роза",
+    image: "./image/роза.jpg",
     reviews: [
       {
         id: uid(),
@@ -66,6 +59,7 @@ const initialData = [
   {
     id: uid(),
     product: "Ромашка",
+    image: "./image/ромашка.jpg",
     reviews: [
       {
         id: uid(),
@@ -75,54 +69,74 @@ const initialData = [
   },
 ];
 
-for (const iterator of cardEl) {
-  console.log(iterator);
-  const reviewsEl = iterator.querySelector('.reviews');
-  const cardTitleEl = iterator.querySelector('.card__title');
-  initialData.forEach(data => {
-    console.log(data.product);
+const contentEl = document.querySelector('.content');
 
-    if (cardTitleEl.innerText === data.product) {
-      console.log(`${cardTitleEl.innerText} === ${data.product}`);
-      iterator.id = data.id;
+initialData.forEach(data => {
+  const cardEl = document.createElement("div");
+  cardEl.classList.add('card');
+  cardEl.id = data.id;
 
-      data.reviews.forEach(review => {
-        const liEl = document.createElement('li');
-        liEl.textContent = review.text;
-        liEl.id = review.id;
-        reviewsEl.id = review.id;
-        const itemListEl = iterator.querySelector('.item-list');
-        itemListEl.append(liEl);
-      });
+  const headingEl = document.createElement('h1');
+  headingEl.classList.add('card__title');
+  headingEl.textContent = data.product;
+
+  const imageEl = document.createElement('img');
+  imageEl.classList.add('card__img');
+  imageEl.src = data.image;
+  const altImage = `image`;
+  imageEl.setAttribute('alt', altImage);
+
+  const reviewsDivEl = document.createElement("div");
+  reviewsDivEl.classList.add('card__review');
+
+  const reviewFormEl = document.createElement('form');
+  const reviewInputEl = document.createElement('input');
+  reviewInputEl.setAttribute('type', 'text');
+  reviewInputEl.setAttribute('placeholder', 'Ваш отзыв');
+  const reviewButtonEl = document.createElement('button');
+  reviewButtonEl.setAttribute('type', 'submit');
+  reviewButtonEl.innerText = "Отправить";
+  reviewButtonEl.classList.add('review__button');
+  const errorEl = document.createElement('p');
+  errorEl.classList.add('review__error');
+
+  reviewsDivEl.append(errorEl);
+  const reviewTextDivEl = document.createElement("div");
+  reviewTextDivEl.classList.add('card__review__text');
+  
+  reviewsDivEl.append(reviewFormEl, reviewInputEl, reviewButtonEl, reviewTextDivEl);
+
+  data.reviews.forEach(element => {
+    const reviewEl = document.createElement('p');
+    reviewEl.id = element.id;
+    reviewEl.textContent = element.text;
+
+    reviewTextDivEl.append(reviewEl);
+  });
+
+  reviewButtonEl.addEventListener('click', (e) => {
+    e.preventDefault()
+    try {
+      const userInput = reviewInputEl.value;
+      if (userInput.length < 50 || userInput.length > 500) {
+        const textError = "Длина введенного значения не соответствует требованиям!";
+        reviewInputEl.value = '';
+        errorEl.textContent = textError;
+        
+        throw new Error(textError);
+      }
+      
+      const newReviewEl = document.createElement('p');
+      newReviewEl.id = uid();
+      newReviewEl.textContent = reviewInputEl.value;
+      reviewTextDivEl.append(newReviewEl);
+      reviewInputEl.value = '';
+
+    } catch (error) {
+      
     }
   });
-}
-function idReviews() {
-  for (const iterator of initialData) {
-    return iterator.reviews[0].id;
-  }
-}
 
-checkButtonInputEl.addEventListener('click', () => {
-  console.log(reviewsInputEl.value);
-//   try {
-//     const userInput = reviewsInputEl.value;
-//     if (userInput.length < 50 || userInput.length > 500) {
-//       reviewsInputEl.value = '';
-//       messageEl.textContent = '';
-//       throw new Error('Длина введенного значения не соответствует требованиям!');
-
-//     }
-
-//     liEl.textContent = userInput;
-//     itemListEl.append(liEl);
-//     reviewsInputEl.value = '';
-//     messageEl.textContent = '';
-//   } catch (error) {
-//     messageEl.textContent = error.message;
-//   } finally {
-//     console.log('Попытка добавления элемента завершена!');
-//   }
+  contentEl.append(cardEl);
+  cardEl.append(headingEl, imageEl, reviewsDivEl);
 });
-
-
