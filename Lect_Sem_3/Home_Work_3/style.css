@@ -1,0 +1,17 @@
+.viewing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.viewing__buttonExit {
+  margin-top: 15px;
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,13 @@
+.content{
+    
+
+    &__news{
+        border: 2px solid red;
+        width: 500px;
+        min-height: 350px;
+    }
+    .button__news{
+        height: 50px;
+        width: 150px;
+    }
+}

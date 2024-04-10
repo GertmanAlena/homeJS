@@ -1,0 +1,81 @@
+import { getViewing, uid, deleteViewing } from './storage.js';
+
+const viewingsEl = document.querySelector('.viewings');
+
+const viewings = getViewing();
+viewings.forEach(viewing => {
+    console.log(viewing);
+    const id = uid();
+    const productEl = document.createElement('div');
+    productEl.id = id;
+    productEl.classList.add('viewing');
+    const productNameEl = document.createElement('h3');
+    productNameEl.classList.add('viewing__name');
+    productNameEl.textContent = viewing.name;
+    const btnEl = document.createElement('button');
+    btnEl.classList.add('viewing__button');
+    btnEl.id = id;
+    btnEl.textContent = 'показать отзывы';
+    const btnDelEl = document.createElement('button');
+    btnDelEl.classList.add('viewing__button__delete');
+    btnDelEl.id = id;
+    btnDelEl.textContent = 'удалить отзывы';
+
+    viewingsEl.append(productEl)
+    productEl.append(productNameEl, btnEl, btnDelEl);
+});
+
+const btnExitEl = document.querySelector('.viewing__buttonExit');
+const buttonAll = document.querySelectorAll('.viewing__button');
+const buttonDeleteAll = document.querySelectorAll('.viewing__button__delete');
+
+buttonAll.forEach(button => {
+    button.addEventListener('click', () => {
+
+        const divEl = button.parentElement.querySelector('.viewing__name');
+
+        if (button.textContent === 'показать отзывы') {
+            viewings.forEach(viewing => {
+                if (divEl.textContent === viewing.name) {
+                    button.textContent = 'скрыть отзывы';
+                    const ulEl = document.createElement('ul');
+                    ulEl.classList.add('ul_viewing');
+                    const liEl = document.createElement('li');
+                    liEl.textContent = viewing.viewing;
+                    ulEl.append(liEl);
+                    divEl.append(ulEl);
+                }
+
+            });
+        }
+
+        else if (button.textContent === 'скрыть отзывы') {
+            const ulViewingEl = document.querySelector('.ul_viewing');
+            ulViewingEl.remove();
+            button.textContent = 'показать отзывы';
+        }
+    });
+});
+
+btnExitEl.addEventListener('click', () => {
+    console.log("**************");
+    location.href = "viewing.html";
+});
+
+buttonDeleteAll.forEach(button => {
+    button.addEventListener('click', () => {
+
+        const divEl = button.parentElement.querySelector('.viewing__name');
+        viewings.forEach(viewing => {
+            if (divEl.textContent === viewing.name) {
+                const delEl = viewing.name;
+                console.log(delEl);
+                deleteViewing(delEl);
+            }
+
+        });
+
+        // alert('Отзыв удален');
+
+    });
+});
