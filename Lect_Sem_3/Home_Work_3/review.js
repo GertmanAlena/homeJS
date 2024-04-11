@@ -4,14 +4,15 @@ const viewingsEl = document.querySelector('.viewings');
 
 const viewings = getViewing();
 viewings.forEach(viewing => {
-    console.log(viewing);
-    const id = uid();
+    const id = viewing.id;
+    console.log(viewing.title);
+    console.log(id);
     const productEl = document.createElement('div');
     productEl.id = id;
     productEl.classList.add('viewing');
     const productNameEl = document.createElement('h3');
     productNameEl.classList.add('viewing__name');
-    productNameEl.textContent = viewing.name;
+    productNameEl.textContent = viewing.title;
     const btnEl = document.createElement('button');
     btnEl.classList.add('viewing__button');
     btnEl.id = id;
@@ -31,12 +32,10 @@ const buttonDeleteAll = document.querySelectorAll('.viewing__button__delete');
 
 buttonAll.forEach(button => {
     button.addEventListener('click', () => {
-
         const divEl = button.parentElement.querySelector('.viewing__name');
-
         if (button.textContent === 'показать отзывы') {
             viewings.forEach(viewing => {
-                if (divEl.textContent === viewing.name) {
+                if (button.id === viewing.id) {
                     button.textContent = 'скрыть отзывы';
                     const ulEl = document.createElement('ul');
                     ulEl.classList.add('ul_viewing');
@@ -45,10 +44,8 @@ buttonAll.forEach(button => {
                     ulEl.append(liEl);
                     divEl.append(ulEl);
                 }
-
             });
         }
-
         else if (button.textContent === 'скрыть отзывы') {
             const ulViewingEl = document.querySelector('.ul_viewing');
             ulViewingEl.remove();
@@ -58,24 +55,22 @@ buttonAll.forEach(button => {
 });
 
 btnExitEl.addEventListener('click', () => {
-    console.log("**************");
     location.href = "viewing.html";
 });
 
 buttonDeleteAll.forEach(button => {
     button.addEventListener('click', () => {
-
-        const divEl = button.parentElement.querySelector('.viewing__name');
+        console.log(button.id);
         viewings.forEach(viewing => {
-            if (divEl.textContent === viewing.name) {
-                const delEl = viewing.name;
-                console.log(delEl);
-                deleteViewing(delEl);
+            if (button.id === viewing.id) {
+                const ulEl = document.querySelector('.ul_viewing');
+                console.log();
+                ulEl.remove();
+                const divEl = document.querySelector('.viewing__name');
+                divEl.remove();
+                deleteViewing(button.id);
             }
-
         });
-
-        // alert('Отзыв удален');
-
+        alert('Отзыв удален');
     });
 });
